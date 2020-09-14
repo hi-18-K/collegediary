@@ -26,3 +26,44 @@ from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import FilterSet
 from django_filters import rest_framework as filters
+
+
+@csrf_exempt
+def project(request):
+    if request.method == "GET":
+        queryset = Project.objects.all()
+        serializer = ProjectSerializer(queryset, many = True, context={'request': request})
+        return JsonResponse(serializer.data, safe = False)
+
+    elif request.method == "POST":
+        jsondata = JSONParser()
+        data = jsondata.parse(request)
+        serializer = ProjectSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status = 201)
+        return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def project_details(request, id):
+    try:
+        instance = Project.objects.get(id=id)
+    except Project.DoesNotExist as e:
+        return JsonResponse({"error": "Given project instance not found"}, status =404)
+
+    if request.method == "GET":
+        serializer = ProjectSerializer(instance)
+        return JsonResponse(serializer.data, safe = True)
+
+    elif request.method == "PUT":
+        jsondata = JSONParser()
+        data = jsondata.parse(request)
+        serializer = ProjectSerializer(instance, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status = 200)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == "DELETE":
+        instance.delete()
+        return HttpResponse(status =204)

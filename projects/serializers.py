@@ -4,7 +4,7 @@ from techstack.models import Techstack, Tag, Nontech
 from django.contrib.auth.models import User
 
 
-class ProjectSerializer(serializers.HyperlinkedModelSerializer):
+class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = (
@@ -15,9 +15,8 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                     'otherlink',
                     'creator',
                     'tech',
-                    'tag',
-                    'url'
+                    'tag'
                 )
-    # 
+    #
     # def create(self):
     #     pass

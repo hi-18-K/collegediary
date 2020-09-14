@@ -26,4 +26,6 @@ urlpatterns = [
     path('api/students/', include('students.api_urls')),
     path('blog/', include('blog.urls')),
     path('api/blog/', include('blog.api_urls')),
+    path('techstack/', include('techstack.urls')),
+    path('api/techstack/', include('techstack.api_urls')),
 ]
