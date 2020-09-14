@@ -28,6 +28,52 @@ from django_filters import FilterSet
 from django_filters import rest_framework as filters
 
 
+
+class ProjectAPIView(APIView):
+    def get(self, request):
+        queryset = Project.objects.all()
+        serializer = ProjectSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data, status =200)
+
+    def post(self, request):
+        data = request.data
+        serializer = ProjectSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status = 201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+
+class ProjectDetailAPIView(APIView):
+    def get_obj(self, id):
+        try:
+            return Project.objects.get(id=id)
+        except Project.DoesNotExist as e:
+            return JsonResponse({"error": "Given project instance not found"}, status =404)
+
+    def get(self, request, id):
+        instance = self.get_obj(id)
+        serializer = ProjectSerializer(instance)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        data = request.data
+        instance = self.get_obj(id)
+        serializer = ProjectSerializer(instance, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status = 200)
+        return JsonResponse(serializer.errors, status=400)
+
+    def delete(self, request, id):
+        instance = self.get_obj(id)
+        instance.delete()
+        return HttpResponse(status =204)
+
+
+# FUNCTION BASED VIEWS
+
 @csrf_exempt
 def project(request):
     if request.method == "GET":
