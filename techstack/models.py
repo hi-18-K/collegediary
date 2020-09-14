@@ -13,7 +13,7 @@ class Techstack(models.Model):                  # USE LIST SERCH METHOD
 
 
 
-class Nontech(models.model):                    # USE LIST SERCH METHOD
+class Nontech(models.Model):                    # USE LIST SERCH METHOD
     fun = models.CharField(max_length = 50)
 
     def __str__(self):
