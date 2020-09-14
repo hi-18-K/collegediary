@@ -40,6 +40,8 @@ class ProjectListView(generics.GenericAPIView, mixins.ListModelMixin,
     serializer_class = ProjectSerializer
     queryset = Project.objects.all()
     lookup_field = 'id'
+    authentication_class = [TokenAuthentication, SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id =None):
         if id:
@@ -56,6 +58,7 @@ class ProjectListView(generics.GenericAPIView, mixins.ListModelMixin,
         return self.update(request, id)
 
     def perform_update(self, serializer):
+        # if self.request.user == self.request.creator
         serializer.save(creator = self.request.user)
 
     def delete(self, request, id =None):
