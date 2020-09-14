@@ -15,10 +15,10 @@ from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.decorators import action
 
-from ems.decorators import admin_hr_required, admin_only
-from poll.forms import PollForm, ChoiceForm
-from poll.models import *
-from poll.serializers import QuestionSerializer, ChoiceSerializer, QuestionSearchSerializer
+# from collegediary.decorators import admin_hr_required, admin_only
+# from projects.forms import ProjectForm, ChoiceForm
+from projects.models import *
+from projects.serializers import ProjectSerializer# , ChoiceSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import viewsets

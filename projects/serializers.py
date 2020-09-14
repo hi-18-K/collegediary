@@ -18,3 +18,6 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                     'tag',
                     'url'
                 )
+    # 
+    # def create(self):
+    #     pass

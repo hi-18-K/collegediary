@@ -1,28 +1,19 @@
-from django.shortcuts import render, reverse, redirect, get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views.generic import View
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic.edit import CreateView
-from django.db.models import Q
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import UpdateView
+from django.urls import reverse
+from django.urls import reverse_lazy
+# from .forms import UserForm
+# from collegediary.decorators import admin_hr_required, admin_only
+from .serializers import StudentSerializer
 
-from rest_framework.parsers import JSONParser
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import generics
-from rest_framework import mixins
-from rest_framework.decorators import action
-
-from ems.decorators import admin_hr_required, admin_only
-from poll.forms import PollForm, ChoiceForm
-from poll.models import *
-from poll.serializers import QuestionSerializer, ChoiceSerializer, QuestionSearchSerializer
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import viewsets
-from rest_framework.decorators import action
-from django_filters.rest_framework import DjangoFilterBackend
-from django_filters import FilterSet
-from django_filters import rest_framework as filters
+
+
+class StudentViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = StudentSerializer

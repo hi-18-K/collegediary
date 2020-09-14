@@ -11,6 +11,9 @@ class Project(models.Model):
     detail = models.CharField(max_length = 150, null = False)
     githublink = models.URLField(max_length = 200)
     otherlink = models.URLField(max_length = 200)
-    creator = models.ForeignKey('User', on_delete=models.CASCADE)
-    tech = models.ManyToManyField('Techstack')
-    tag = models.ManyToManyField('Tag')
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    tech = models.ManyToManyField('techstack.Techstack', null = False)
+    tag = models.ManyToManyField('techstack.Tag')
+
+    def __str__(self):
+        return self.title
