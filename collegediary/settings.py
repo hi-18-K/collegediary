@@ -34,9 +34,8 @@ INSTALLED_APPS = [
     'blog',
     'students',
     'projects',
+    'techstack',
 
-
-    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
