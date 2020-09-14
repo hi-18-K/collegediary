@@ -29,6 +29,42 @@ from django_filters import rest_framework as filters
 
 
 
+# USING GENERIC VIEWS
+
+
+class ProjectListView(generics.GenericAPIView, mixins.ListModelMixin,
+                                               mixins.CreateModelMixin,
+                                               mixins.UpdateModelMixin,
+                                               mixins.DestroyModelMixin,
+                                               mixins.RetrieveModelMixin):
+    serializer_class = ProjectSerializer
+    queryset = Project.objects.all()
+    lookup_field = 'id'
+
+    def get(self, request, id =None):
+        if id:
+            return self.retrieve(request)
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+    def perform_create(self, serializer):
+        serializer.save(creator = self.request.user)
+
+    def put(self, request, id):
+        return self.update(request, id)
+
+    def perform_update(self, serializer):
+        serializer.save(creator = self.request.user)
+
+    def delete(self, request, id =None):
+        self.destroy(request, id)
+
+
+
+# USING CLASS BASED VIEW FOR WRITING THE SAME FUNCTIONALITY
+
 class ProjectAPIView(APIView):
     def get(self, request):
         queryset = Project.objects.all()
